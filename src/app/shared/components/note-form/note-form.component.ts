@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
 import {
-  FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule
+  FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators
 } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -63,9 +63,9 @@ export class NoteFormComponent implements OnInit {
     private notesService: NotesService
   ) {
     this.noteForm = this.fb.nonNullable.group<NoteForm>({
-      title: new FormControl('', {nonNullable: true}),
-      description: new FormControl('', {nonNullable: true}),
-      date: new FormControl(this.startDate, {nonNullable: true})
+      title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      date: new FormControl(this.startDate, { nonNullable: true, validators: [Validators.required] })
     })
    }
 
@@ -82,6 +82,9 @@ export class NoteFormComponent implements OnInit {
    }
 
   public onSubmit(): void  {
+    if (!this.noteForm.valid) {
+      return;
+    }
     const date = formatDate(this.noteForm.value.date || new Date());
     const { title, description } = this.noteForm.value;
     const payload: NoteFormPayload = {
