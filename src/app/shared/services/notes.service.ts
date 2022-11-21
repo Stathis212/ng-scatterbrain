@@ -38,9 +38,9 @@ export class NotesService {
     return this.http.get<NoteModel>(`${environment.apiUrl}/notes/${id}`)
   }
 
-  createNote(id: number, formData: NoteFormPayload): void {
+  createNote(formData: NoteFormPayload): void {
     const newNote: NoteModel = {
-      id,
+      id: this.notesSubject.getValue().length + 1,
       title: formData.title,
       description: formData.description,
       create_date: formatDate(new Date()),
@@ -52,9 +52,22 @@ export class NotesService {
   }
 
   editNote(id: number, formData: NoteFormPayload): void {
-    this.http.put<any>(`${environment.apiUrl}/notes/${id}`, formData)
+    const noteToUpdate = this.notesSubject.getValue().find(note => note.id === id);
+    if (noteToUpdate) {
+      const updatedData: NoteModel = {
+        id,
+        title: formData.title,
+        description: formData.description,
+        create_date: noteToUpdate.create_date,
+        reminder_date: formData.date
+      };
+      this.http.put<any>(`${environment.apiUrl}/notes/${id}`, updatedData)
       .pipe(take(1))
       .subscribe(() => this.getNotes())
+    } else {
+      console.error('Note id not valid.')
+      return;
+    }
   }
 
   deleteNote(id: number): void {

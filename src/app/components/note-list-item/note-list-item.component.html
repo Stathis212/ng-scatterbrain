@@ -16,6 +16,7 @@
     <mat-card-actions>
       <span>Reminder Date: {{ note?.reminder_date | date: 'mediumDate' }}</span>
       <i mat-button class="material-symbols-outlined icon" (click)="deleteNote()">delete</i>
+      <i mat-button class="material-symbols-outlined icon" (click)="editNote()">edit</i>
     </mat-card-actions>
   </mat-card>
 </div>

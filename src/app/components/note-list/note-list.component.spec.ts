@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { HttpClientModule } from '@angular/common/http'
 
+import { NoteModel } from 'src/app/shared/models/notes.model'
 import { NotesService } from 'src/app/shared/services/notes.service'
 import { NotesServiceStub } from 'src/app/shared/testing/stubs/notes.service.stub'
 
@@ -39,6 +40,21 @@ describe('NoteListComponent', () => {
     component.ngOnDestroy();
 
     expect(unsubscribeSpy).toHaveBeenCalled();
+  });
+
+  it('should edit note', () => {
+    const openDialogSpy = spyOn<any>(component, 'openDialog');
+    const noteData: NoteModel = {
+      "id": 1,
+      "title": "Do one hundred pushups",
+      "description": "Secret of One Punch man",
+      "create_date": "2022-11-20 15:20:06",
+      "reminder_date": "2022-11-23 15:20:06"
+    };
+
+    component.editNote(noteData);
+
+    expect(openDialogSpy).toHaveBeenCalledWith('100ms', '100ms', noteData);
   });
 
   it('should delete note', () => {

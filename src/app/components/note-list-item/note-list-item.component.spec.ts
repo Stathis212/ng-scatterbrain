@@ -21,6 +21,12 @@ describe('NoteListItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should emit when edit note', () => {
+    const emitSpy = spyOn<any>(component['editListItemEmitter'], 'emit');
+    component.editNote();
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
   it('should emit when delete note', () => {
     const emitSpy = spyOn<any>(component['deleteListItemEmitter'], 'emit');
     component.deleteNote();

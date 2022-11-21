@@ -5,6 +5,7 @@
     <li *ngFor="let note of notes"
         app-note-list-item
         [note]="note"
+        (editListItemEmitter)="editNote(note)"
         (deleteListItemEmitter)="deleteNote(note.id)"
     >
     </li>

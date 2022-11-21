@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { HttpClientModule } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
+import { FormActions } from '../../helpers/global.helper'
+import { NoteModel } from '../../models/notes.model'
 import { NotesService } from '../../services/notes.service'
 import { NotesServiceStub } from '../../testing/stubs/notes.service.stub'
 import { formatDate } from '../../utils/date-format.util'
@@ -58,7 +60,36 @@ describe('NoteFormComponent', () => {
     } as NoteFormPayload;
 
     expect(emitSpy).toHaveBeenCalled();
-    expect(serviceSpy).toHaveBeenCalledWith(component.itemId, expectedPayload);
+    expect(serviceSpy).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should submit form for edit data', () => {
+    const emitSpy = spyOn<any>(component['closeNoteFormEmitter'], 'emit');
+    const serviceSpy = spyOn<any>(component['notesService'], 'editNote').and.callFake(() => {
+      return;
+    });
+
+    component.formType = FormActions.edit;
+    component.itemData = {
+      "id": 1,
+      "title": "Do one hundred pushups",
+      "description": "Secret of One Punch man",
+      "create_date": "2022-11-20 15:20:06",
+      "reminder_date": "2022-11-23 15:20:06"
+    } as NoteModel;
+
+    component.onSubmit();
+
+    const date = formatDate(component.noteForm.value.date || new Date());
+    const { title, description } = component.noteForm.value;
+    const expectedPayload: NoteFormPayload = {
+      title,
+      description,
+      date
+    } as NoteFormPayload;
+
+    expect(emitSpy).toHaveBeenCalled();
+    expect(serviceSpy).toHaveBeenCalledWith(component.itemData.id, expectedPayload);
   });
 
 });

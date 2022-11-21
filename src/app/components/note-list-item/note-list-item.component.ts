@@ -15,9 +15,14 @@ import { NoteModel } from 'src/app/shared/models/notes.model'
 export class NoteListItemComponent {
 
   @Input() public note: NoteModel | null = null;
+  @Output() public editListItemEmitter: EventEmitter<void> = new EventEmitter();
   @Output() public deleteListItemEmitter: EventEmitter<void> = new EventEmitter();
 
   constructor() { }
+
+  public editNote() {
+    this.editListItemEmitter.emit();
+  }
 
   public deleteNote() {
     this.deleteListItemEmitter.emit();

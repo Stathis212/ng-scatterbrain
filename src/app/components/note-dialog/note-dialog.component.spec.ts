@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { HttpClientModule } from '@angular/common/http'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { NotesService } from 'src/app/shared/services/notes.service'
@@ -12,6 +12,8 @@ import { NoteDialogComponent } from './note-dialog.component'
 describe('NoteDialogComponent', () => {
   let component: NoteDialogComponent;
   let fixture: ComponentFixture<NoteDialogComponent>;
+
+  const model = {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -26,7 +28,14 @@ describe('NoteDialogComponent', () => {
             close: () => {}
           }
         },
-        { provide: NotesService, useClass: NotesServiceStub },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: model
+        },
+        {
+          provide: NotesService,
+          useClass: NotesServiceStub
+        }
       ]
     })
     .compileComponents();

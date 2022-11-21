@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 
 import {
   FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule
@@ -12,6 +12,9 @@ import { MatInputModule } from '@angular/material/input'
 
 import { NotesService } from 'src/app/shared/services/notes.service'
 import { formatDate } from 'src/app/shared/utils/date-format.util'
+
+import { FormActions } from '../../helpers/global.helper'
+import { NoteModel } from '../../models/notes.model'
 
 export interface NoteForm {
   title: FormControl<string>;
@@ -41,9 +44,10 @@ export interface NoteFormPayload {
   templateUrl: './note-form.component.html',
   styleUrls: ['./note-form.component.scss']
 })
-export class NoteFormComponent {
+export class NoteFormComponent implements OnInit {
 
-  @Input() itemId: number = 0;
+  @Input() itemData: NoteModel | null = null;
+  @Input() formType: FormActions = FormActions.add;
   @Output() public closeNoteFormEmitter = new EventEmitter<void>();
 
   public noteForm: FormGroup<NoteForm>;
@@ -65,6 +69,18 @@ export class NoteFormComponent {
     })
    }
 
+   public ngOnInit(): void {
+    if (this.itemData) {
+      const existingData = {
+        title: this.itemData.title,
+        description: this.itemData.description,
+        date: new Date(this.itemData.reminder_date)
+      }
+
+      this.noteForm.patchValue(existingData);
+    }
+   }
+
   public onSubmit(): void  {
     const date = formatDate(this.noteForm.value.date || new Date());
     const { title, description } = this.noteForm.value;
@@ -73,11 +89,20 @@ export class NoteFormComponent {
       description,
       date
     } as NoteFormPayload;
-    this.notesService.createNote(this.itemId, payload);
-    this.closeNoteFormEmitter.emit();
+    if (this.formType === FormActions.add) {
+      this.notesService.createNote(payload);
+    }
+    if (this.formType === FormActions.edit && this.itemData) {
+      this.notesService.editNote(this.itemData.id, payload);
+    }
+    this.closeForm();
   }
 
   public onCancel(): void  {
+    this.closeForm();
+  }
+
+  private closeForm(): void {
     this.closeNoteFormEmitter.emit();
   }
 

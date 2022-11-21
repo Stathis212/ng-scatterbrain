@@ -7,6 +7,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
 
+import { FormActions } from 'src/app/shared/helpers/global.helper'
+
 import { NoteDialogComponent } from '../note-dialog/note-dialog.component'
 
 @Component({
@@ -36,11 +38,14 @@ export class NoteListItemAddComponent {
     this.addNewNoteEmitter.emit();
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  public openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(NoteDialogComponent, {
       width: '30%',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {
+        type: FormActions.add
+      }
     });
   }
 

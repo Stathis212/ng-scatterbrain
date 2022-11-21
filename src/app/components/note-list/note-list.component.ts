@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core'
 
 import { NgFor, NgIf } from '@angular/common'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 
 import { Subscription } from 'rxjs'
+import { NoteFormPayload } from 'src/app/shared/components/note-form/note-form.component'
+import { FormActions } from 'src/app/shared/helpers/global.helper'
 import { NoteModel } from 'src/app/shared/models/notes.model'
 import { NotesService } from 'src/app/shared/services/notes.service'
 
+import { NoteDialogComponent } from '../note-dialog/note-dialog.component'
 import { NoteListItemAddComponent } from '../note-list-item-add/note-list-item-add.component'
 import { NoteListItemComponent } from '../note-list-item/note-list-item.component'
 
@@ -15,7 +19,8 @@ import { NoteListItemComponent } from '../note-list-item/note-list-item.componen
     NgFor,
     NgIf,
     NoteListItemAddComponent,
-    NoteListItemComponent
+    NoteListItemComponent,
+    MatDialogModule
   ],
   selector: 'app-note-list',
   templateUrl: './note-list.component.html',
@@ -27,7 +32,7 @@ export class NoteListComponent implements OnInit {
 
   private subscription = new Subscription();
 
-  constructor( private notesService: NotesService ) { }
+  constructor( private notesService: NotesService, private dialog: MatDialog ) { }
 
   public ngOnInit(): void {
     this.subscription.add(
@@ -42,8 +47,24 @@ export class NoteListComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
+  public editNote(note: NoteModel) {
+    this.openDialog('100ms', '100ms', note);
+  }
+
   public deleteNote(id: number) {
     this.notesService.deleteNote(id);
+  }
+
+  private openDialog(enterAnimationDuration: string, exitAnimationDuration: string, note: NoteModel): void {
+    this.dialog.open(NoteDialogComponent, {
+      width: '30%',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        note,
+        type: FormActions.edit
+      },
+    });
   }
 
 }
