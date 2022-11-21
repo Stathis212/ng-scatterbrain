@@ -43,10 +43,16 @@ describe('NoteFormComponent', () => {
     expect({...component.noteForm.value, date: formatDate(component.noteForm.value.date) }).toEqual(expectedInitialFormValue);
   });
 
-  it('should submit form', () => {
+  it('should submit form for create', () => {
     const emitSpy = spyOn<any>(component['closeNoteFormEmitter'], 'emit');
     const serviceSpy = spyOn<any>(component['notesService'], 'createNote').and.callFake(() => {
       return;
+    });
+
+    component.noteForm.patchValue({
+      title: 'test',
+      description: 'test',
+      date: new Date()
     });
 
     component.onSubmit();
@@ -68,15 +74,21 @@ describe('NoteFormComponent', () => {
     const serviceSpy = spyOn<any>(component['notesService'], 'editNote').and.callFake(() => {
       return;
     });
+    const noteData: NoteModel = {
+      id: 1,
+      title: "Do one hundred pushups",
+      description: "Secret of One Punch man",
+      create_date: "2022-11-20 15:20:06",
+      reminder_date: "2022-11-23 15:20:06"
+    }
 
     component.formType = FormActions.edit;
-    component.itemData = {
-      "id": 1,
-      "title": "Do one hundred pushups",
-      "description": "Secret of One Punch man",
-      "create_date": "2022-11-20 15:20:06",
-      "reminder_date": "2022-11-23 15:20:06"
-    } as NoteModel;
+    component.itemData = noteData;
+    component.noteForm.patchValue({
+      title: noteData.title,
+      description: noteData.description,
+      date: new Date(noteData.reminder_date)
+    });
 
     component.onSubmit();
 
