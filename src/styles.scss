@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+html, body {
+  height: 100%;
+}
+body {
+  font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+  background-color: #325574;
+  margin: 0;
+}
+
+.mat-card {
+  font-family: 'Poppins' !important;
+}

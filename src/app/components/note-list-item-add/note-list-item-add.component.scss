@@ -1,0 +1,55 @@
+.new-note-wrapper {
+  min-height: 15rem;
+
+  .mat-card {
+    min-height: 15rem;
+  }
+
+  .new-note{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 4rem;
+
+    &-button {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      width: fit-content;
+      cursor: pointer;
+
+      i {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        height: 78px;
+        width: 78px;
+        color: #ccc;
+        font-size: 40px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+      }
+
+      p {
+        margin-top: 20px;
+        color: #ccc;
+        font-weight: 500;
+      }
+
+      &:hover {
+        i, p {
+          color: #88ABFF;
+        }
+
+        i {
+          border: 2px dashed #88ABFF;
+        }
+      }
+    }
+
+  }
+
+}

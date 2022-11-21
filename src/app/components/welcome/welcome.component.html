@@ -1,0 +1,19 @@
+<div class="welcome-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ title }}</mat-card-title>
+      <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <span>
+        {{ description }}
+      </span>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button [routerLink]="['/notes']">
+        Check your notes!
+      </a>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

@@ -1,0 +1,21 @@
+<div class="notes-item-wrapper">
+  <mat-card class="note-card">
+    <mat-card-header class="note-card-header">
+      <mat-card-title>
+        {{note?.title}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{note?.create_date | date: 'mediumDate' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{note?.description}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <span>Reminder Date: {{ note?.reminder_date | date: 'mediumDate' }}</span>
+      <i mat-button class="material-symbols-outlined icon" (click)="deleteNote()">delete</i>
+    </mat-card-actions>
+  </mat-card>
+</div>

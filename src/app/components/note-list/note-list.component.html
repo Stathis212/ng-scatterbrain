@@ -1,0 +1,12 @@
+<main>
+  <ul class="notes-list">
+    <li app-note-add>
+    </li>
+    <li *ngFor="let note of notes"
+        app-note-list-item
+        [note]="note"
+        (deleteListItemEmitter)="deleteNote(note.id)"
+    >
+    </li>
+  </ul>
+</main>

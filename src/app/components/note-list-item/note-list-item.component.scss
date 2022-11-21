@@ -1,0 +1,20 @@
+.notes-item-wrapper {
+  min-height: 15rem;
+
+  .note-card {
+    min-height: 15rem;
+
+    .mat-card-content, .mat-card-actions {
+      padding-left: 15px;
+    }
+
+    p {
+      height: 130px;
+    }
+
+    i.icon {
+      float: right;
+      cursor: pointer;
+    }
+  }
+}
